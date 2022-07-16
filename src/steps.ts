@@ -1,4 +1,5 @@
 import { RoughCanvas } from "roughjs/bin/canvas";
+import { Options } from "roughjs/bin/core";
 
 let index = 0;
 
@@ -8,6 +9,7 @@ let seed: number;
 
 const ww = 1000;
 const hh = 700;
+const unit = 70;
 
 type Stuff = {
   context: CanvasRenderingContext2D;
@@ -25,6 +27,69 @@ function line(fromX: number, fromY: number, toX: number, toY: number) {
   roughCanvas.line(fromX, fromY, toX, toY, { seed, roughness: 5 });
 }
 
+function rectangle(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  options: Partial<Options> = {}
+) {
+  roughCanvas.rectangle(x, y, width, height, {
+    ...options,
+    seed,
+    roughness: 2,
+  });
+}
+
+function square(
+  x: number,
+  y: number,
+  size: number,
+  options: Partial<Options> = {}
+) {
+  rectangle(x - size / 2, y - size / 2, size, size, options);
+}
+
+function ellipse(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  options: Partial<Options> = {}
+) {
+  roughCanvas.ellipse(x, y, width, height, {
+    ...options,
+    seed,
+    roughness: 1,
+  });
+}
+
+function circle(
+  x: number,
+  y: number,
+  diameter: number,
+  options: Partial<Options> = {}
+) {
+  ellipse(x, y, diameter, diameter, options);
+}
+
+function triangle(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  options: Partial<Options> = {}
+) {
+  roughCanvas.polygon(
+    [
+      [x - width / 2, y + height / 2],
+      [x, y - height / 2],
+      [x + width / 2, y + height / 2],
+    ],
+    { ...options, seed, roughness: 1 }
+  );
+}
+
 function text(
   textToDraw: string,
   x: number,
@@ -37,12 +102,29 @@ function text(
   context.resetTransform();
 }
 
+function curve(
+  points: Array<[number, number]>,
+  options: Partial<Options> = {}
+) {
+  roughCanvas.curve(points, { ...options, seed, roughness: 2, bowing: 5 });
+}
+
 const steps = [
   () => line(ww / 3, 20, ww / 3, hh - 20),
   () => line((ww / 3) * 2, 20, (ww / 3) * 2, hh - 20),
   () => text("workdir", ww / 6, 30, 2),
   () => text("staging area", ww / 2, 30, -1),
   () => text("committed", (ww * 5) / 6, 30, 3),
+  () => circle(ww / 8, hh / 2, unit),
+  () => circle(ww / 4, hh / 2, unit, { fill: "orange" }),
+  () => triangle(ww / 2, hh / 2, unit, unit, { fill: "red" }),
+  () => square((ww * 5) / 6, hh / 2, unit, { fill: "blue" }),
+  () =>
+    curve([
+      [ww / 8, hh / 2 - unit],
+      [(ww / 16) * 3, hh / 2 - 1.5 * unit],
+      [ww / 4, hh / 2 - unit],
+    ]),
 ];
 
 function getStep() {
