@@ -1,13 +1,21 @@
+import { RoughCanvas } from "roughjs/bin/canvas";
+
 let index = 0;
 
-let context;
-let roughCanvas;
-let seed;
+let context: CanvasRenderingContext2D;
+let roughCanvas: RoughCanvas;
+let seed: number;
 
 const ww = 1000;
 const hh = 700;
 
-export function setStuff(stuff) {
+type Stuff = {
+  context: CanvasRenderingContext2D;
+  roughCanvas: RoughCanvas;
+  seed: number;
+};
+
+export function setStuff(stuff: Stuff) {
   context = stuff.context;
   roughCanvas = stuff.roughCanvas;
   seed = stuff.seed;
