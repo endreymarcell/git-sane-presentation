@@ -189,21 +189,64 @@ function arrow(
 }
 
 const steps = [
+  // vertical line
   () => line(ww / 3, 20, ww / 3, hh - 20),
   () => line((ww / 3) * 2, 20, (ww / 3) * 2, hh - 20),
   () => text("workdir", ww / 6, 30, 2),
   () => text("staging area", ww / 2, 30, -1),
   () => text("committed", (ww * 5) / 6, 30, 3),
+
+  // workdir
   () => circle(ww / 8, hh / 2, unit),
   () => circle(ww / 4, hh / 2, unit, { fill: "orange" }),
+
+  // staging area
   () => triangle(ww / 2, hh / 2, unit, unit, { fill: "red" }),
+
+  // commit
   () => square((ww * 5) / 6, hh / 2, unit, { fill: "blue" }),
+
+  // change file
+  () => {
+    arrow(ww / 8, hh / 2 - unit, ww / 4 - small, hh / 2 - unit, -3);
+    fontSize(18);
+    text("(change)", ww / 6, hh / 2 - (unit * 7) / 4);
+  },
+
+  // stage change
+  () => {
+    arrow(ww / 4 + small, hh / 2 - unit, ww / 2 - small, hh / 2 - unit, -2);
+    fontSize(30);
+    text("add", ww / 3 + unit / 2, hh / 2 - unit * 2, 5);
+  },
+
+  // unstage change
+  () => arrow(ww / 2 - small, hh / 2 + unit, ww / 4 + small, hh / 2 + unit, -2),
+
+  // commit change
+  () => {
+    arrow(
+      ww / 2 + small,
+      hh / 2 - unit,
+      (ww / 6) * 5 - small,
+      hh / 2 - unit,
+      -2
+    );
+    text("commit", ww / 2 + unit + small, hh / 2 - unit * 2, -12);
+  },
+
+  // undo change
+  () => arrow(ww / 4, hh / 2 + unit, ww / 8, hh / 2 + unit, -2),
+
+  // uncommit
   () =>
-    curve([
-      [ww / 8, hh / 2 - unit],
-      [(ww / 16) * 3, hh / 2 - 1.5 * unit],
-      [ww / 4, hh / 2 - unit],
-    ]),
+    arrow(
+      (ww / 6) * 5 - small,
+      hh / 2 + unit - small,
+      ww / 2 + unit / 2,
+      hh / 2 + unit,
+      -2
+    ),
 ];
 
 function getStep() {
