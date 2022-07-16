@@ -3,7 +3,7 @@ import { stepForward, stepBack, setStuff } from "./steps";
 
 const canvas = document.querySelector("canvas")!;
 const context = canvas.getContext("2d")!;
-context.font = "30px Virgil";
+context.font = "40px Virgil";
 context.textAlign = "center";
 context.textBaseline = "middle";
 

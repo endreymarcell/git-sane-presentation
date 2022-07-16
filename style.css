@@ -21,9 +21,9 @@ body {
 
 h1 {
   font-family: Virgil, sans-serif;
-  font-size: 36px;
+  font-size: 50px;
   text-decoration: underline;
-  text-underline-offset: 1rem;
+  text-underline-offset: 0.8rem;
   margin: 0;
 }
 
