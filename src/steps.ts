@@ -21,28 +21,28 @@ export function setStuff(stuff: Stuff) {
   seed = stuff.seed;
 }
 
+function line(fromX: number, fromY: number, toX: number, toY: number) {
+  roughCanvas.line(fromX, fromY, toX, toY, { seed, roughness: 5 });
+}
+
+function text(
+  textToDraw: string,
+  x: number,
+  y: number,
+  rotationDegree: number = 0
+) {
+  context.translate(x, y);
+  context.rotate((rotationDegree / 180) * Math.PI);
+  context.fillText(textToDraw, 0, 0);
+  context.resetTransform();
+}
+
 const steps = [
-  () => roughCanvas.line(ww / 3, 20, ww / 3, hh - 20, { seed, roughness: 5 }),
-  () =>
-    roughCanvas.line((ww / 3) * 2, 20, (ww / 3) * 2, hh - 20, {
-      seed,
-      roughness: 5,
-    }),
-  () => {
-    context.rotate(0.02);
-    context.fillText("workdir", ww / 6, 30);
-    context.resetTransform();
-  },
-  () => {
-    context.rotate(-0.01);
-    context.fillText("staging area", ww / 2, 30);
-    context.resetTransform();
-  },
-  () => {
-    context.rotate(0.01);
-    context.fillText("committed", (ww * 5) / 6, 20);
-    context.resetTransform();
-  },
+  () => line(ww / 3, 20, ww / 3, hh - 20),
+  () => line((ww / 3) * 2, 20, (ww / 3) * 2, hh - 20),
+  () => text("workdir", ww / 6, 30, 2),
+  () => text("staging area", ww / 2, 30, -1),
+  () => text("committed", (ww * 5) / 6, 30, 3),
 ];
 
 function getStep() {
@@ -50,11 +50,8 @@ function getStep() {
 }
 
 function setStepInUrl() {
-  window.history.replaceState(
-    null,
-    null,
-    `${window.location.protocol}//${window.location.host}?step=${index}`
-  );
+  const url = `${window.location.protocol}//${window.location.host}?step=${index}`;
+  window.history.replaceState(null, "", url);
 }
 
 export function stepForward() {
