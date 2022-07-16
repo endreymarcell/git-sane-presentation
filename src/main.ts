@@ -9,7 +9,7 @@ context.textBaseline = "middle";
 
 const roughCanvas = rough.canvas(canvas);
 
-export const seed = Math.floor(Math.random() * Math.pow(2, 31));
+export const seed = 643975982;
 
 setStuff({ context, roughCanvas, seed });
 
