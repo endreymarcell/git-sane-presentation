@@ -1,5 +1,6 @@
 import { RoughCanvas } from "roughjs/bin/canvas";
 import { Options } from "roughjs/bin/core";
+import { Point } from "roughjs/bin/geometry";
 
 let index = 0;
 
@@ -10,6 +11,7 @@ let seed: number;
 const ww = 1000;
 const hh = 700;
 const unit = 70;
+const small = unit / 4;
 
 type Stuff = {
   context: CanvasRenderingContext2D;
@@ -23,8 +25,12 @@ export function setStuff(stuff: Stuff) {
   seed = stuff.seed;
 }
 
+function fontSize(size: number) {
+  context.font = `${size}px Virgil`;
+}
+
 function line(fromX: number, fromY: number, toX: number, toY: number) {
-  roughCanvas.line(fromX, fromY, toX, toY, { seed, roughness: 5 });
+  roughCanvas.line(fromX, fromY, toX, toY, { seed, roughness: 2 });
 }
 
 function rectangle(
