@@ -29,6 +29,10 @@ function fontSize(size: number) {
   context.font = `${size}px Virgil`;
 }
 
+function fontColor(color: string) {
+  context.fillStyle = color;
+}
+
 function line(fromX: number, fromY: number, toX: number, toY: number) {
   roughCanvas.line(fromX, fromY, toX, toY, { seed, roughness: 2 });
 }
@@ -210,6 +214,7 @@ const steps = [
   () => {
     arrow(ww / 8, hh / 2 - unit, ww / 4 - small, hh / 2 - unit, -3);
     fontSize(18);
+    fontColor("#555");
     text("(change)", ww / 6, hh / 2 - (unit * 7) / 4);
   },
 
