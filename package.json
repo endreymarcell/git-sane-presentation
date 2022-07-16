@@ -1,0 +1,18 @@
+{
+  "name": "git-sane",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "vite": "^3.0.0"
+  },
+  "dependencies": {
+    "roughjs": "^4.5.2"
+  }
+}

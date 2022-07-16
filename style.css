@@ -1,0 +1,33 @@
+@font-face {
+  font-family: Virgil;
+  src: url("/assets/Virgil.woff2");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: Virgil, sans-serif;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 5rem;
+}
+
+h1 {
+  font-family: Virgil, sans-serif;
+  font-size: 36px;
+  text-decoration: underline;
+  text-underline-offset: 1rem;
+  margin: 0;
+}
+
+canvas {
+  background: white;
+  font-family: Virgil, sans-serif;
+}
