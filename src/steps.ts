@@ -101,12 +101,85 @@ function text(
   context.fillText(textToDraw, 0, 0);
   context.resetTransform();
 }
-
+/*
 function curve(
   points: Array<[number, number]>,
   options: Partial<Options> = {}
 ) {
   roughCanvas.curve(points, { ...options, seed, roughness: 2, bowing: 5 });
+}*/
+
+function arrow(
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  bowing: number,
+  options: Partial<Options> = {}
+) {
+  const startPoint: Point = [fromX, fromY];
+  const endPoint: Point = [toX, toY];
+  const startMiddlePoint: Point = [
+    fromX + (toX - fromX) / 5,
+    fromY + (toY - fromY) / 5,
+  ];
+  const middlePoint: Point = [
+    fromX + (toX - fromX) / 2,
+    fromY + (toY - fromY) / 2,
+  ];
+  const endMiddlePoint: Point = [
+    fromX + ((toX - fromX) / 5) * 4,
+    fromY + ((toY - fromY) / 5) * 4,
+  ];
+
+  const vector = [toX - fromX, toY - fromY];
+  const [dx, dy] = vector;
+  const rotated = [-dy, dx];
+  const shrunk = rotated.map((d) => d / 10);
+  const adjusted = shrunk.map((d) => d * bowing);
+  const [adx, ady] = adjusted;
+
+  const someMagicNumber = 2 / 3;
+
+  const extraStartMiddlePoint: Point = [
+    startMiddlePoint[0] + adx * someMagicNumber,
+    startMiddlePoint[1] + ady * someMagicNumber,
+  ];
+  const extraMiddlePoint: Point = [middlePoint[0] + adx, middlePoint[1] + ady];
+  const extraEndMiddlePoint: Point = [
+    endMiddlePoint[0] + adx * someMagicNumber,
+    endMiddlePoint[1] + ady * someMagicNumber,
+  ];
+
+  const points: Array<Point> = [
+    startPoint,
+    extraStartMiddlePoint,
+    extraMiddlePoint,
+    extraEndMiddlePoint,
+    endPoint,
+  ];
+  roughCanvas.curve(points, { ...options, seed });
+
+  const extraEndMiddlePointToEndVector: Point = [
+    endPoint[0] - extraEndMiddlePoint[0],
+    endPoint[1] - extraEndMiddlePoint[1],
+  ];
+  const [edx, edy] = extraEndMiddlePointToEndVector;
+  const auxNormalVector = [-edy, edx].map((d) => d / 2.5);
+  const auxPoint: Point = [
+    extraEndMiddlePoint[0] + edx / 10,
+    extraEndMiddlePoint[1] + edy / 10,
+  ];
+  const headPoint1: Point = [
+    auxPoint[0] + auxNormalVector[0],
+    auxPoint[1] + auxNormalVector[1],
+  ];
+  const headPoint2: Point = [
+    auxPoint[0] - auxNormalVector[0],
+    auxPoint[1] - auxNormalVector[1],
+  ];
+  line(...endPoint, ...headPoint1);
+  line(...endPoint, ...headPoint2);
 }
 
 const steps = [
