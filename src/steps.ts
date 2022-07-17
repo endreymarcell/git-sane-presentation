@@ -523,10 +523,19 @@ const steps = [
   },
   () => text("--find-copies", (ww * 5) / 6, hh - unit * 1.7),
   () => text("--find-copies-harder", (ww * 5) / 6 + small, hh - unit * 1.3),
+
+  // magic incantation
   () => text("rev-parse", unit / 2 - small, hh / 2 + unit * 1.5, -85),
   () => text("--abbrev-ref", unit / 2, hh / 2 - unit / 2 + 15, -83),
   () => text("--stuck-long", unit / 2 + small, hh / 2 - 2.4 * unit + 5, -85),
-  () => text("--parseopt", unit / 2 + 2 * small, hh / 2 - 4.2 * unit, -86),
+  () => {
+    text("--parseopt", unit / 2 + 2 * small, hh / 2 - 4.2 * unit, -86);
+    document.getElementById("canvas-cover")?.classList.remove("visible");
+  },
+
+  // BREAK
+  () => document.getElementById("canvas-cover")?.classList.add("visible"),
+  () => context.clearRect(0, 0, ww, hh),
 ];
 
 function getStep() {

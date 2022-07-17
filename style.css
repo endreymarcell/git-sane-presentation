@@ -31,3 +31,18 @@ canvas {
   background: white;
   font-family: Virgil, sans-serif;
 }
+
+#canvas-cover {
+  width: 1000px;
+  height: 700px;
+  margin-top: 8rem;
+  background: white;
+  position: absolute;
+  opacity: 0;
+  transition: none;
+}
+
+#canvas-cover.visible {
+  opacity: 1;
+  transition: opacity 3s ease-in-out;
+}
