@@ -33,8 +33,14 @@ function fontColor(color: string) {
   context.fillStyle = color;
 }
 
-function line(fromX: number, fromY: number, toX: number, toY: number) {
-  roughCanvas.line(fromX, fromY, toX, toY, { seed, roughness: 2 });
+function line(
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  options: Partial<Options> = {}
+) {
+  roughCanvas.line(fromX, fromY, toX, toY, { roughness: 2, ...options, seed });
 }
 
 function rectangle(
@@ -188,8 +194,8 @@ function arrow(
     auxPoint[0] - auxNormalVector[0],
     auxPoint[1] - auxNormalVector[1],
   ];
-  line(...endPoint, ...headPoint1);
-  line(...endPoint, ...headPoint2);
+  line(...endPoint, ...headPoint1, options);
+  line(...endPoint, ...headPoint2, options);
 }
 
 const steps = [
@@ -198,6 +204,7 @@ const steps = [
   () => line((ww / 3) * 2, 20, (ww / 3) * 2, hh - 20),
   () => {
     fontSize(40);
+    fontColor("black");
     text("workdir", ww / 6, 30, 2);
   },
   () => {
@@ -206,6 +213,7 @@ const steps = [
   },
   () => {
     fontSize(40);
+    fontColor("black");
     text("committed", (ww * 5) / 6, 30, 3);
   },
 
@@ -224,7 +232,7 @@ const steps = [
   () => {
     fontSize(18);
     fontColor("#555");
-    text("(change)", ww / 6, hh / 2 - (unit * 7) / 4);
+    text("(change)", ww / 6 + small / 2, hh / 2 - (unit * 7) / 4);
   },
 
   // stage change
@@ -300,17 +308,144 @@ const steps = [
   },
 
   // revert
-  () =>
-    arrow(
-      (ww / 6) * 5,
-      hh / 2 + unit,
-      ww / 2 + unit / 3,
-      hh / 2 + unit + small,
-      -3.5
-    ),
   () => {
     fontSize(24);
-    text("revert", (ww / 3) * 2 + unit, hh / 2 + 2.7 * unit, -18);
+    text("or revert (?)", (ww / 3) * 2 + unit + small, hh / 2 + 2.1 * unit, -8);
+  },
+
+  // diff
+  () => {
+    arrow(
+      ww / 8 - small,
+      hh / 2 - unit * 1.5,
+      ww / 4 - small,
+      hh / 2 - unit * 1.5,
+      -5,
+      {
+        stroke: "orange",
+      }
+    );
+    arrow(
+      ww / 4 - small,
+      hh / 2 - unit * 1.5,
+      ww / 8 - small,
+      hh / 2 - unit * 1.5,
+      5,
+      {
+        stroke: "orange",
+      }
+    );
+  },
+  () => {
+    fontColor("orange");
+    text("diff", ww / 6, hh / 2 - unit * 2.7);
+    fontColor("black");
+  },
+
+  // diff cached
+  () =>
+    arrow(ww / 8 - small, hh / 2 - unit * 2.5, ww / 2, hh / 2 - unit * 2, -3, {
+      stroke: "red",
+    }),
+  () => {
+    fontColor("red");
+    text("diff --staged", ww / 3 - unit - small, hh / 2 - unit * 4, -10);
+  },
+  () =>
+    line(
+      ww / 3 - unit * 1.7,
+      hh / 2 - unit * 3.9,
+      ww / 3 + 5,
+      hh / 2 - unit * 4.3,
+      {
+        stroke: "red",
+        roughness: 4,
+      }
+    ),
+  () => {
+    fontColor("red");
+    text("--cached", ww / 3 - unit, hh / 2 - unit * 4.3, -10);
+  },
+  () => {
+    fontColor("black");
+    fontSize(34);
+    text("(cache)", ww / 2 + small, unit);
+  },
+  () => line(ww / 2 - small * 2, unit, ww / 2 + unit, unit, { strokeWidth: 2 }),
+  () => {
+    fontColor("black");
+    fontSize(34);
+    text("(index)", ww / 2 + small * 2, unit * 1.5);
+  },
+
+  // commit all
+  () => {
+    arrow(
+      ww / 4 + small * 2,
+      hh / 2 - small * 2,
+      (ww / 6) * 5 - small * 3,
+      hh / 2 - small,
+      -0.5,
+      { stroke: "blue" }
+    );
+  },
+  () => {
+    fontColor("blue");
+    fontSize(24);
+    text("commit --all", ww / 2 - unit - small, hh / 2 - small - 10, -3);
+  },
+  () => {
+    fontSize(20);
+    text("(tracked)", ww / 2 - unit - small, hh / 2, -3);
+  },
+
+  // branches
+  () => line(small + 4, hh - 2 * unit - 6, ww - small - 2, hh - 2 * unit),
+  () => line(small - 8, hh - unit, ww - small - 10, hh - unit - 5),
+  () => {
+    fontColor("darkgreen");
+    text("master", unit, hh - 2.5 * unit);
+  },
+  () => text("feature", unit + 2, hh - 1.5 * unit, 2),
+  () => {
+    fontColor("black");
+    fontSize(80);
+    text("}", unit * 2, hh - unit * 1.8, -19);
+  },
+  () => {
+    fontSize(24);
+    text("branch --list", unit * 3.4, hh - unit * 2.3, -5);
+  },
+  () => {
+    fontColor("limegreen");
+    text("new-branch:", unit - 5, hh - 0.5 * unit, 5);
+  },
+  () => {
+    fontColor("black");
+    text("checkout -b", unit * 3, hh - unit / 2);
+  },
+  () => {
+    fontSize(20);
+    text("(--branch)", unit * 4.7, hh - unit / 2 - 10, -8);
+  },
+  () => line(unit * 4, hh - unit / 2 - 5, unit * 5.5, hh - unit / 2 - 20),
+  () => text("or switch -c", unit * 3, hh - small),
+
+  () => {
+    line(small * 2, hh - unit * 1.8, unit * 1.6, hh - unit * 1.3, {
+      stroke: "red",
+    });
+    line(small * 2, hh - unit * 1.3, unit * 1.6, hh - unit * 1.8, {
+      stroke: "red",
+    });
+  },
+  () => {
+    fontColor("red");
+    text("branch -d", unit * 2.5, hh - unit * 1.3);
+  },
+  () => {
+    fontSize(28);
+    text("D", unit * 3.1, hh - unit * 1.3);
   },
 ];
 
