@@ -447,6 +447,86 @@ const steps = [
     fontSize(28);
     text("D", unit * 3.1, hh - unit * 1.3);
   },
+
+  // rebase
+  () => {
+    fontColor("black");
+    text("rebase", ww / 2 - unit * 1.5, hh - unit * 1.5);
+  },
+
+  // other re-commands
+  () => {
+    fontSize(22);
+    text("replace", ww / 2 - unit, hh - unit / 2, -20);
+  },
+  () => text("repack", ww / 2 - 10, hh - unit / 2, -15),
+  () => text("reflog", ww / 2 + unit - 20, hh - unit / 2, -28),
+  () => text("rev-parse", ww / 2 + unit * 1.8, hh - unit / 2 - 6, -25),
+
+  // rerere
+  () => {
+    fontSize(32);
+    fontColor("purple");
+    text("rerere", (ww / 3) * 2 + unit, hh - unit / 2, -9);
+  },
+  () => text(":)", (ww / 3) * 2 + 2 * unit, hh - unit / 2 - 10, 90),
+  // not kidding
+  () =>
+    line(
+      (ww / 3) * 2 + 1.8 * unit,
+      hh - unit / 2.5,
+      (ww / 3) * 2 + 2.3 * unit,
+      hh - unit / 1.2,
+      { strokeWidth: 3 }
+    ),
+  () =>
+    line(
+      (ww / 3) * 2 + 1.8 * unit,
+      hh - unit / 1.2,
+      (ww / 3) * 2 + 2.3 * unit,
+      hh - unit / 2.5,
+      { strokeWidth: 3 }
+    ),
+  () =>
+    line(
+      (ww / 3) * 2 + 1.7 * unit,
+      hh - unit / 2.6,
+      (ww / 3) * 2 + 2.4 * unit,
+      hh - unit / 1.25,
+      { strokeWidth: 3 }
+    ),
+  () =>
+    line(
+      (ww / 3) * 2 + 1.9 * unit,
+      hh - unit / 1.14,
+      (ww / 3) * 2 + 2.2 * unit,
+      hh - unit / 2.5,
+      { strokeWidth: 3 }
+    ),
+
+  // go bananas
+  () => {
+    fontSize(25);
+    fontColor("black");
+    text("--porcelain", ww - unit, 2 * unit);
+  },
+  () => {
+    fontSize(29);
+    text("--patience", ww - unit - 10, 3 * unit, 2);
+  },
+  () => {
+    fontSize(22);
+    text("--pickaxe-all", ww - unit - small, 4 * unit, -2);
+  },
+  () => {
+    text("--guess --no-progress", ww - unit - 20, 6.3 * unit, -50);
+  },
+  () => text("--find-copies", (ww * 5) / 6, hh - unit * 1.7),
+  () => text("--find-copies-harder", (ww * 5) / 6 + small, hh - unit * 1.3),
+  () => text("rev-parse", unit / 2 - small, hh / 2 + unit * 1.5, -85),
+  () => text("--abbrev-ref", unit / 2, hh / 2 - unit / 2 + 15, -83),
+  () => text("--stuck-long", unit / 2 + small, hh / 2 - 2.4 * unit + 5, -85),
+  () => text("--parseopt", unit / 2 + 2 * small, hh / 2 - 4.2 * unit, -86),
 ];
 
 function getStep() {
