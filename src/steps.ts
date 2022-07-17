@@ -193,12 +193,21 @@ function arrow(
 }
 
 const steps = [
-  // vertical line
+  // vertical lines
   () => line(ww / 3, 20, ww / 3, hh - 20),
   () => line((ww / 3) * 2, 20, (ww / 3) * 2, hh - 20),
-  () => text("workdir", ww / 6, 30, 2),
-  () => text("staging area", ww / 2, 30, -1),
-  () => text("committed", (ww * 5) / 6, 30, 3),
+  () => {
+    fontSize(40);
+    text("workdir", ww / 6, 30, 2);
+  },
+  () => {
+    fontSize(40);
+    text("staging area", ww / 2, 30, -1);
+  },
+  () => {
+    fontSize(40);
+    text("committed", (ww * 5) / 6, 30, 3);
+  },
 
   // workdir
   () => circle(ww / 8, hh / 2, unit),
@@ -211,22 +220,19 @@ const steps = [
   () => square((ww * 5) / 6, hh / 2, unit, { fill: "blue" }),
 
   // change file
+  () => arrow(ww / 8, hh / 2 - unit, ww / 4 - small, hh / 2 - unit, -3),
   () => {
-    arrow(ww / 8, hh / 2 - unit, ww / 4 - small, hh / 2 - unit, -3);
     fontSize(18);
     fontColor("#555");
     text("(change)", ww / 6, hh / 2 - (unit * 7) / 4);
   },
 
   // stage change
+  () => arrow(ww / 4 + small, hh / 2 - unit, ww / 2 - small, hh / 2 - unit, -2),
   () => {
-    arrow(ww / 4 + small, hh / 2 - unit, ww / 2 - small, hh / 2 - unit, -2);
     fontSize(30);
     text("add", ww / 3 + unit / 2, hh / 2 - unit * 2, 5);
   },
-
-  // unstage change
-  () => arrow(ww / 2 - small, hh / 2 + unit, ww / 4 + small, hh / 2 + unit, -2),
 
   // commit change
   () => {
@@ -237,11 +243,47 @@ const steps = [
       hh / 2 - unit,
       -2
     );
+  },
+  () => {
+    fontSize(30);
     text("commit", ww / 2 + unit + small, hh / 2 - unit * 2, -12);
   },
 
   // undo change
   () => arrow(ww / 4, hh / 2 + unit, ww / 8, hh / 2 + unit, -2),
+  () => {
+    fontSize(24);
+    text("restore", ww / 6 + small, hh / 2 + unit * 1.8);
+  },
+
+  // unstage change
+  () => arrow(ww / 2 - small, hh / 2 + unit, ww / 4 + small, hh / 2 + unit, -2),
+  () => {
+    fontSize(24);
+    text("remove", ww / 3 + 3 * small, hh / 2 + unit * 2);
+  },
+  () =>
+    line(
+      ww / 3 + small / 2,
+      hh / 2 + unit * 2,
+      ww / 3 + unit + small * 2,
+      hh / 2 + unit * 2
+    ),
+  () => {
+    fontSize(24);
+    text("rm", ww / 3 + 3 * small, hh / 2 + unit * 2.3);
+  },
+  () =>
+    line(
+      ww / 3 + small * 1.5,
+      hh / 2 + unit * 2.3,
+      ww / 3 + unit,
+      hh / 2 + unit * 2.3
+    ),
+  () => {
+    fontSize(24);
+    text("reset", ww / 3 + 3 * small, hh / 2 + unit * 2.6);
+  },
 
   // uncommit
   () =>
@@ -252,6 +294,24 @@ const steps = [
       hh / 2 + unit,
       -2
     ),
+  () => {
+    fontSize(24);
+    text("reset", (ww / 3) * 2 + unit, hh / 2 + (unit * 7) / 4, -10);
+  },
+
+  // revert
+  () =>
+    arrow(
+      (ww / 6) * 5,
+      hh / 2 + unit,
+      ww / 2 + unit / 3,
+      hh / 2 + unit + small,
+      -3.5
+    ),
+  () => {
+    fontSize(24);
+    text("revert", (ww / 3) * 2 + unit, hh / 2 + 2.7 * unit, -18);
+  },
 ];
 
 function getStep() {
