@@ -26,7 +26,8 @@ export function setStuff(stuff: Stuff) {
 }
 
 function fontSize(size: number) {
-  context.font = `${size}px Virgil`;
+  const font = context.font.substring(context.font.indexOf(" "));
+  context.font = `${size}px ${font}`;
 }
 
 function fontColor(color: string) {
@@ -232,7 +233,7 @@ const steps = [
   () => {
     fontSize(18);
     fontColor("#555");
-    text("(change)", ww / 6 + small / 2, hh / 2 - (unit * 7) / 4);
+    text("<change>", ww / 6 + small / 2, hh / 2 - (unit * 7) / 4);
   },
 
   // stage change
@@ -529,13 +530,101 @@ const steps = [
   () => text("--abbrev-ref", unit / 2, hh / 2 - unit / 2 + 15, -83),
   () => text("--stuck-long", unit / 2 + small, hh / 2 - 2.4 * unit + 5, -85),
   () => {
+    context.font = "22px Virgil";
     text("--parseopt", unit / 2 + 2 * small, hh / 2 - 4.2 * unit, -86);
     document.getElementById("canvas-cover")?.classList.remove("visible");
   },
 
   // BREAK
   () => document.getElementById("canvas-cover")?.classList.add("visible"),
-  () => context.clearRect(0, 0, ww, hh),
+  () => {
+    context.clearRect(0, 0, ww, hh);
+    document.getElementById("canvas-cover")?.classList.remove("visible");
+  },
+
+  // git-sane
+
+  // change and undo
+  () => {
+    context.font = "28px Fira Code";
+    context.textAlign = "right";
+    text("<change>", ww / 2 - unit / 2, small);
+  },
+  () => {
+    context.textAlign = "center";
+    text("-", ww / 2, small);
+  },
+  () => {
+    context.textAlign = "left";
+    text("undo (u)", ww / 2 + unit / 2, small);
+  },
+  () => text("undo-all (ua)", ww / 2 + unit / 2, unit - 12),
+
+  // staging
+  () => {
+    context.textAlign = "right";
+    text("stage (s)", ww / 2 - unit / 2, hh / 6);
+  },
+  () => {
+    context.textAlign = "center";
+    text("-", ww / 2, hh / 6);
+  },
+  () => {
+    context.textAlign = "left";
+    text("unstage (us)", ww / 2 + unit / 2, hh / 6);
+  },
+  () => {
+    context.textAlign = "right";
+    text("stage-all (sa)", ww / 2 - unit / 2, hh / 6 + unit - 12 - small);
+  },
+  () => {
+    context.textAlign = "left";
+    text("unstage-all (usa)", ww / 2 + unit / 2, hh / 6 + unit - small - 12);
+  },
+  () => {
+    context.textAlign = "right";
+    text("stage-files (sf)", ww / 2 - unit / 2, hh / 4 + small + 5);
+  },
+  () => text("stage-lines (sl)", ww / 2 - unit / 2, hh / 3 + 5),
+  () => {
+    context.textAlign = "left";
+    text("diff-staged (ds)", ww / 2 + unit / 2, hh / 3 + 5);
+  },
+
+  // commit
+  () => {
+    context.textAlign = "right";
+    text("commit (c)", ww / 2 - unit / 2, hh / 2 - unit + small);
+  },
+  () => {
+    context.textAlign = "center";
+    text("-", ww / 2, hh / 2 - unit + small);
+  },
+  () => {
+    context.textAlign = "left";
+    text("uncommit (uc)", ww / 2 + unit / 2, hh / 2 - unit + small);
+  },
+  () => {
+    context.textAlign = "left";
+    text("drop-commit (dc)", ww / 2 + unit / 2, hh / 2 - 12);
+  },
+  () => {
+    context.textAlign = "left";
+    text("invert-commit (ic)", ww / 2 + unit / 2, hh / 2 + 30);
+  },
+
+  // branches
+  () => {
+    context.textAlign = "center";
+    text("list-branches (lb)", ww / 5, hh / 2);
+  },
+  () => text("select-branch (sb)", ww / 5, (hh * 7) / 12),
+  () => text("create-branch (cb)", ww / 5, (hh * 2) / 3),
+  () => text("delete-branch (db)", ww / 5, (hh * 3) / 4),
+
+  // others
+  () => text("jump-to (j)", (ww / 3) * 2, (hh / 12) * 7),
+  () => text("rewrite-history (rh)", (ww / 3) * 2, (hh / 3) * 2),
 ];
 
 function getStep() {
