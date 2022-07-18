@@ -616,15 +616,27 @@ const steps = [
   // branches
   () => {
     context.textAlign = "center";
-    text("list-branches (lb)", ww / 5, hh / 2);
+    text("list-branches (lb)", ww / 5, (hh * 7) / 12);
   },
-  () => text("select-branch (sb)", ww / 5, (hh * 7) / 12),
-  () => text("create-branch (cb)", ww / 5, (hh * 2) / 3),
-  () => text("delete-branch (db)", ww / 5, (hh * 3) / 4),
+  () => text("select-branch (sb)", ww / 5, (hh * 2) / 3),
+  () => text("create-branch (cb)", ww / 5, (hh * 3) / 4),
+  () => text("delete-branch (db)", ww / 5, (hh * 5) / 6),
 
   // others
-  () => text("jump-to (j)", (ww / 3) * 2, (hh / 12) * 7),
-  () => text("rewrite-history (rh)", (ww / 3) * 2, (hh / 3) * 2),
+  () => text("jump-to (j)", (ww / 3) * 2, (hh / 4) * 3),
+  () => text("rewrite-history (rh)", (ww / 3) * 2, (hh / 6) * 5),
+
+  // finally
+  () => {
+    context.beginPath();
+    context.rect(0, hh - unit, ww, unit);
+    context.fillStyle = "#2da44e";
+    context.fill();
+    fontColor("white");
+    fontSize(24);
+    context.textAlign = "center";
+    text("github.com/endreymarcell/git-sane", ww / 2, hh - small * 2 + 4);
+  },
 ];
 
 function getStep() {
